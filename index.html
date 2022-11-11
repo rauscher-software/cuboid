@@ -144,6 +144,10 @@
       var curx = 1
       var cury = 1
       var curz = 1
+
+      var shading = true
+      var shade = 0.4
+
       // draw everything
       function draw(){
         // clear and set white canvas
@@ -238,6 +242,32 @@
         }
         // fill or stroke
         fill ? ctx.fill() : ctx.stroke()
+
+        // shading
+        if(shading){
+          // LEFT shading (darker)
+          ctx.beginPath()
+          ctx.fillStyle = `rgba(0,0,0,${shade})`
+          if(drawSides.left && (!fill || !document.getElementById('hideLeft').checked)){
+            ctx.moveTo(a[0],a[1])
+            ctx.lineTo(b[0],b[1])
+            ctx.lineTo(c[0],c[1])
+            ctx.lineTo(d[0],d[1])
+            ctx.closePath()
+          }
+          ctx.fill()
+          // RIGHT shading (lighter)
+          ctx.beginPath()
+          ctx.fillStyle = `rgba(0,0,0,${shade/2})`
+          if(drawSides.right && (!fill || !document.getElementById('hideRight').checked)){
+            ctx.moveTo(a[0],a[1])
+            ctx.lineTo(d[0],d[1])
+            ctx.lineTo(f[0],f[1])
+            ctx.lineTo(e[0],e[1])
+            ctx.closePath()
+          }
+          ctx.fill()
+        }
 
       }
       // save image file

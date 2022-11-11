@@ -128,27 +128,29 @@
 
     <script type="text/javascript">
 
+      // set up canvas
       const canvas = document.getElementById('canvas')
       const ctx = canvas.getContext('2d')
-
+      // side length for all cube bricks
       var side = 30
-
+      // absolute offset (draw @ center)
       var ox = canvas.width/2
       var oy = canvas.height/2 + side
-
+      // color cuboid offset
       var cox
       var coy
       var coz
-
+      // track cuboid size (for naming saved file)
       var curx = 1
       var cury = 1
       var curz = 1
-
+      // draw everything
       function draw(){
+        // clear and set white canvas
         ctx.clearRect(0,0,canvas.width, canvas.height)
         ctx.fillStyle = "#ffffff"
         ctx.fillRect(0,0,canvas.width,canvas.height)
-
+        // draw color cuboid (if checkd)
         if(document.getElementById('drawColorCube').checked){
           let cx = document.getElementById('cx').value
           let cy = document.getElementById('cy').value
@@ -159,7 +161,7 @@
           let color = document.getElementById('color').value
           drawCubes(cx,cy,cz,true,color)
         }
-
+        // draw base cuboid
         let x = document.getElementById('inX').value
         let y = document.getElementById('inY').value
         let z = document.getElementById('inZ').value
@@ -168,49 +170,47 @@
         curz = z
         drawCubes(x,y,z,false,"black")
       }
-
+      // create all single cube bricks
       function drawCubes(x,y,z,fill,color){
         for(let r = 0; r<x; r++){
           for(let l = 0; l<y; l++){
             for(let u = 0; u<z; u++){
-
+              // set origin for cube (r,l,u)
               let fx = 0 - l*side + r*side
               let fy = 0 + l*0.5*side + r*0.5*side - u*side
-
+              // determine which sides should be drawn
               let sides = {
                 up: u == z-1,
                 left: l == y-1,
                 right: r == x-1
               }
+              // determine additional offset data for colored cube
               let dx = cox*side - coy*side
               let dy = coy*side*0.5 + cox*side*0.5 + coz*side*-1
+              // draw base or color cube
               fill ? drawCube(fx+ox+dx,fy+oy+dy,sides,true,color) : drawCube(fx+ox,fy+oy,sides,false,color)
             }
           }
         }
       }
-
+      // draw single cube
       function drawCube(x,y,drawSides,fill,color){
-
-         let a = [x,y]
-         let b = [x - side, y - side*0.5]
-         let c = [x - side, y - side - side*0.5]
-         let d = [x, y - side]
-         let e = [x + side, y - side*0.5]
-         let f = [x + side, y - side - side*0.5]
-         let g = [x, y - side - (side*0.5 + side*0.5)]
-
+        // calculate net points for hexagon
+        let a = [x,y]
+        let b = [x - side, y - side*0.5]
+        let c = [x - side, y - side - side*0.5]
+        let d = [x, y - side]
+        let e = [x + side, y - side*0.5]
+        let f = [x + side, y - side - side*0.5]
+        let g = [x, y - side - (side*0.5 + side*0.5)]
+        // draw
         ctx.beginPath()
-
+        // set color
         ctx.strokeStyle = color
         ctx.fillStyle = color
-
         //LEFT
         if(drawSides.left){
-          if(fill && document.getElementById('hideLeft').checked){
-
-          }
-          else {
+          if(!fill || !document.getElementById('hideLeft').checked){
             ctx.moveTo(a[0],a[1])
             ctx.lineTo(b[0],b[1])
             ctx.lineTo(c[0],c[1])
@@ -220,10 +220,7 @@
         }
         //UP
         if(drawSides.up){
-          if(fill && document.getElementById('hideTop').checked){
-
-          }
-          else {
+          if(!fill || !document.getElementById('hideTop').checked){
             ctx.moveTo(c[0],c[1])
             ctx.lineTo(g[0],g[1])
             ctx.lineTo(f[0],f[1])
@@ -232,21 +229,18 @@
         }
         //RIGHT
         if(drawSides.right){
-          if(fill && document.getElementById('hideRight').checked){
-
-          }
-          else {
+          if(!fill || !document.getElementById('hideRight').checked){
             ctx.moveTo(f[0],f[1])
             ctx.lineTo(e[0],e[1])
             ctx.lineTo(a[0],a[1])
             if(fill) ctx.lineTo(d[0],d[1])
           }
         }
-
+        // fill or stroke
         fill ? ctx.fill() : ctx.stroke()
 
       }
-
+      // save image file
       function save(){
         let canvasUrl = canvas.toDataURL("image/jpeg", 1)
         let download = document.createElement('a')

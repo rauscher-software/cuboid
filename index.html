@@ -12,6 +12,9 @@
       body {background: lightgrey; font-family: Calibri, sans-serif}
       table {border-collapse: collapse; margin: 0 auto;}
       td {text-align: center; vertical-align: middle;}
+      td > span {float: left; padding: 4px;}
+      td > span.arrow {padding-left: 24px;}
+      td > input[type="number"] {float: right; padding: 4px;}
       #canvas {margin:10px; border:1px solid; background: white; padding: 30px;}
     </style>
 
@@ -76,19 +79,19 @@
       </tr>
       <tr>
         <td>
-          <span>Länge: </span>
+          <span class="arrow">⤡</span>
           <input type="number" oninput="draw()" min="-10" max="10" value="0" id="cox">
         </td>
       </tr>
       <tr>
         <td>
-          <span>Breite: </span>
+          <span class="arrow">⤢</span>
           <input type="number" oninput="draw()" min="-10" max="10" value="0" id="coy">
         </td>
       </tr>
       <tr>
         <td>
-          <span>Höhe: </span>
+          <span class="arrow">↕</span>
           <input type="number" oninput="draw()" min="-10" max="10" value="0" id="coz">
         </td>
       </tr>

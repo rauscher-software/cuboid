@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+
+  <body onload="draw()">
+
+    <style media="screen">
+      body {background: lightgrey; font-family: Calibri, sans-serif}
+      table {border-collapse: collapse; margin: 0 auto;}
+      td {text-align: center; vertical-align: middle;}
+      #canvas {margin:10px; border:1px solid; background: white; padding: 30px;}
+    </style>
+
+    <table width="1000" border="1" cellpadding="2">
+      <tr>
+        <td rowspan="18">
+          <canvas id="canvas" width="650" height="650"></canvas>
+        </td>
+        <td><strong>Basis-Quader</strong></td>
+      </tr>
+      <tr>
+        <td>
+          <button onclick="location.reload(true)">Reset</button>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span>Länge: </span>
+          <input type="number" oninput="draw()" min="1" max="10" value="1" id="inX">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span>Breite: </span>
+          <input type="number" oninput="draw()" min="1" max="10" value="1" id="inY">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span>Höhe: </span>
+          <input type="number" oninput="draw()" min="1" max="10" value="1" id="inZ">
+        </td>
+      </tr>
+      <tr>
+        <td><strong>Farb-Quader</strong></td>
+      </tr>
+      <tr>
+        <td>
+          Anzeigen? <input type="checkbox" id="drawColorCube" onchange="draw()">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span>Länge: </span>
+          <input type="number" oninput="draw()" min="1" max="10" value="1" id="cx">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span>Breite: </span>
+          <input type="number" oninput="draw()" min="1" max="10" value="1" id="cy">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span>Höhe: </span>
+          <input type="number" oninput="draw()" min="1" max="10" value="1" id="cz">
+        </td>
+      </tr>
+      <tr>
+        <td>Versatz:</td>
+      </tr>
+      <tr>
+        <td>
+          <span>Länge: </span>
+          <input type="number" oninput="draw()" min="-10" max="10" value="0" id="cox">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span>Breite: </span>
+          <input type="number" oninput="draw()" min="-10" max="10" value="0" id="coy">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span>Höhe: </span>
+          <input type="number" oninput="draw()" min="-10" max="10" value="0" id="coz">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Farbe:
+          <select id="color" onchange="draw()">
+            <option value="blue">Blau</option>
+            <option value="red">Rot</option>
+            <option value="green">Grün</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>Seiten verbergen?</td>
+      </tr>
+      <tr>
+        <td>
+          <table cellpadding="5">
+            <tr>
+              <td><input type="checkbox" id="hideTop" onchange="draw()"> Oben</td>
+              <td><input type="checkbox" id="hideLeft" onchange="draw()"> Links</td>
+              <td><input type="checkbox" id="hideRight" onchange="draw()"> Rechts</td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button onclick="save()">Bild speichern</button>
+        </td>
+      </tr>
+    </table>
+
+    <script type="text/javascript">
+
+      const canvas = document.getElementById('canvas')
+      const ctx = canvas.getContext('2d')
+
+      var side = 30
+
+      var ox = canvas.width/2
+      var oy = canvas.height/2 + side
+
+      var cox
+      var coy
+      var coz
+
+      var curx = 1
+      var cury = 1
+      var curz = 1
+
+      function draw(){
+        ctx.clearRect(0,0,canvas.width, canvas.height)
+        ctx.fillStyle = "#ffffff"
+        ctx.fillRect(0,0,canvas.width,canvas.height)
+
+        if(document.getElementById('drawColorCube').checked){
+          let cx = document.getElementById('cx').value
+          let cy = document.getElementById('cy').value
+          let cz = document.getElementById('cz').value
+          cox = document.getElementById('cox').value
+          coy = document.getElementById('coy').value
+          coz = document.getElementById('coz').value
+          let color = document.getElementById('color').value
+          drawCubes(cx,cy,cz,true,color)
+        }
+
+        let x = document.getElementById('inX').value
+        let y = document.getElementById('inY').value
+        let z = document.getElementById('inZ').value
+        curx = x
+        cury = y
+        curz = z
+        drawCubes(x,y,z,false,"black")
+      }
+
+      function drawCubes(x,y,z,fill,color){
+        for(let r = 0; r<x; r++){
+          for(let l = 0; l<y; l++){
+            for(let u = 0; u<z; u++){
+
+              let fx = 0 - l*side + r*side
+              let fy = 0 + l*0.5*side + r*0.5*side - u*side
+
+              let sides = {
+                up: u == z-1,
+                left: l == y-1,
+                right: r == x-1
+              }
+              let dx = cox*side - coy*side
+              let dy = coy*side*0.5 + cox*side*0.5 + coz*side*-1
+              fill ? drawCube(fx+ox+dx,fy+oy+dy,sides,true,color) : drawCube(fx+ox,fy+oy,sides,false,color)
+            }
+          }
+        }
+      }
+
+      function drawCube(x,y,drawSides,fill,color){
+
+         let a = [x,y]
+         let b = [x - side, y - side*0.5]
+         let c = [x - side, y - side - side*0.5]
+         let d = [x, y - side]
+         let e = [x + side, y - side*0.5]
+         let f = [x + side, y - side - side*0.5]
+         let g = [x, y - side - (side*0.5 + side*0.5)]
+
+        ctx.beginPath()
+
+        ctx.strokeStyle = color
+        ctx.fillStyle = color
+
+        //LEFT
+        if(drawSides.left){
+          if(fill && document.getElementById('hideLeft').checked){
+
+          }
+          else {
+            ctx.moveTo(a[0],a[1])
+            ctx.lineTo(b[0],b[1])
+            ctx.lineTo(c[0],c[1])
+            ctx.lineTo(d[0],d[1])
+            ctx.closePath()
+          }
+        }
+        //UP
+        if(drawSides.up){
+          if(fill && document.getElementById('hideTop').checked){
+
+          }
+          else {
+            ctx.moveTo(c[0],c[1])
+            ctx.lineTo(g[0],g[1])
+            ctx.lineTo(f[0],f[1])
+            ctx.lineTo(d[0],d[1])
+          }
+        }
+        //RIGHT
+        if(drawSides.right){
+          if(fill && document.getElementById('hideRight').checked){
+
+          }
+          else {
+            ctx.moveTo(f[0],f[1])
+            ctx.lineTo(e[0],e[1])
+            ctx.lineTo(a[0],a[1])
+            if(fill) ctx.lineTo(d[0],d[1])
+          }
+        }
+
+        fill ? ctx.fill() : ctx.stroke()
+
+      }
+
+      function save(){
+        let canvasUrl = canvas.toDataURL("image/jpeg", 1)
+        let download = document.createElement('a')
+        let filename = `Quader-${curx}x${cury}x${curz}`
+
+        download.href = canvasUrl
+        download.download = filename
+        download.click()
+        download.remove()
+      }
+
+    </script>
+
+  </body>
+
+</html>

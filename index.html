@@ -10,117 +10,159 @@
 
     <style media="screen">
       body {background: lightgrey; font-family: Calibri, sans-serif}
-      table {border-collapse: collapse; margin: 0 auto;}
-      td {text-align: center; vertical-align: middle;}
-      td > span {float: left; padding: 4px;}
-      td > span.arrow {padding-left: 24px;}
-      td > input[type="number"] {float: right; padding: 4px;}
+      body > table {border-collapse: collapse; margin: 0 auto;}
+      td {text-align: left; vertical-align: middle;}
+      td span {padding: 4px;}
+      td input[type="number"] {padding: 4px;}
+      input[type="number"] {width: 40px;}
       #canvas {margin:10px; border:1px solid; background: white; padding: 30px;}
     </style>
 
-    <table width="1000" border="1" cellpadding="2">
+    <table width="1000" border="1" cellpadding="5">
       <tr>
-        <td rowspan="18">
+        <td rowspan="7">
           <canvas id="canvas" width="650" height="650"></canvas>
         </td>
-        <td><strong>Basis-Quader</strong></td>
-      </tr>
-      <tr>
-        <td>
-          <button onclick="location.reload(true)">Reset</button>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <span>Länge: </span>
-          <input type="number" oninput="draw()" min="1" max="10" value="1" id="inX">
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <span>Breite: </span>
-          <input type="number" oninput="draw()" min="1" max="10" value="1" id="inY">
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <span>Höhe: </span>
-          <input type="number" oninput="draw()" min="1" max="10" value="1" id="inZ">
-        </td>
-      </tr>
-      <tr>
-        <td><strong>Farb-Quader</strong></td>
-      </tr>
-      <tr>
-        <td>
-          Anzeigen? <input type="checkbox" id="drawColorCube" onchange="draw()">
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <span>Länge: </span>
-          <input type="number" oninput="draw()" min="1" max="10" value="1" id="cx">
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <span>Breite: </span>
-          <input type="number" oninput="draw()" min="1" max="10" value="1" id="cy">
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <span>Höhe: </span>
-          <input type="number" oninput="draw()" min="1" max="10" value="1" id="cz">
-        </td>
-      </tr>
-      <tr>
-        <td>Versatz:</td>
-      </tr>
-      <tr>
-        <td>
-          <span class="arrow">⤡</span>
-          <input type="number" oninput="draw()" min="-10" max="10" value="0" id="cox">
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <span class="arrow">⤢</span>
-          <input type="number" oninput="draw()" min="-10" max="10" value="0" id="coy">
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <span class="arrow">↕</span>
-          <input type="number" oninput="draw()" min="-10" max="10" value="0" id="coz">
-        </td>
-      </tr>
-      <tr>
-        <td>
-          Farbe:
-          <select id="color" onchange="draw()">
-            <option value="blue">Blau</option>
-            <option value="red">Rot</option>
-            <option value="green">Grün</option>
-          </select>
-        </td>
-      </tr>
-      <tr>
-        <td>Seiten verbergen?</td>
-      </tr>
-      <tr>
         <td>
           <table cellpadding="5">
             <tr>
-              <td><input type="checkbox" id="hideTop" onchange="draw()"> Oben</td>
-              <td><input type="checkbox" id="hideLeft" onchange="draw()"> Links</td>
-              <td><input type="checkbox" id="hideRight" onchange="draw()"> Rechts</td>
+              <td><strong>Basis-Quader</strong></td>
+              <td><button onclick="location.reload(true)">Reset</button></td>
+            </tr>
+            <tr>
+              <td></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <table cellpadding="5">
+                  <tr>
+                    <td>↘</td>
+                    <td>
+                      <input type="number" oninput="draw()" min="1" max="10" value="1" id="inX">
+                    </td>
+                    <td>↙</td>
+                    <td>
+                      <input type="number" oninput="draw()" min="1" max="10" value="1" id="inY">
+                    </td>
+                    <td>↑</td>
+                    <td>
+                      <input type="number" oninput="draw()" min="1" max="10" value="1" id="inZ">
+                    </td>
+                  </tr>
+                </table>
+              </td>
             </tr>
           </table>
         </td>
       </tr>
       <tr>
         <td>
+          <table cellpadding="5">
+            <tr>
+              <td><strong>Farb-Quader</strong></td>
+              <td>
+                <small>Sichtbar: </small>
+                <input type="checkbox" id="drawColorCube" onchange="draw()">
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <table cellpadding="5">
+                  <tr>
+                    <td>↘</td>
+                    <td>
+                      <input type="number" oninput="draw()" min="1" max="10" value="1" id="cx">
+                    </td>
+                    <td>↙</td>
+                    <td>
+                      <input type="number" oninput="draw()" min="1" max="10" value="1" id="cy">
+                    </td>
+                    <td>↑</td>
+                    <td>
+                      <input type="number" oninput="draw()" min="1" max="10" value="1" id="cz">
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <table cellpadding="5">
+            <tr>
+              <td colspan="6"><strong>Versatz</strong></td>
+            </tr>
+            <tr>
+              <td>⤡</td>
+              <td>
+                <input type="number" oninput="draw()" min="-10" max="10" value="0" id="cox">
+              </td>
+              <td>⤢</td>
+              <td>
+                <input type="number" oninput="draw()" min="-10" max="10" value="0" id="coy">
+              </td>
+              <td>↕</td>
+              <td>
+                <input type="number" oninput="draw()" min="-10" max="10" value="0" id="coz">
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <table cellpadding="5">
+            <tr>
+              <td><strong>Farbe</strong></td>
+              <td>
+                <select id="color" onchange="draw()">
+                  <option value="blue">Blau</option>
+                  <option value="red">Rot</option>
+                  <option value="green">Grün</option>
+                </select>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <table>
+            <tr>
+              <td><strong>Seiten verbergen</strong></td>
+            </tr>
+            <tr>
+              <td>
+                <table cellpadding="5">
+                  <tr>
+                    <td><input type="checkbox" id="hideTop" onchange="draw()"> Oben</td>
+                    <td><input type="checkbox" id="hideLeft" onchange="draw()"> Links</td>
+                    <td><input type="checkbox" id="hideRight" onchange="draw()"> Rechts</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <table>
+            <tr>
+              <td><strong>Schattierung</strong></td>
+            </tr>
+            <tr>
+              <td>
+                <input type="range" id="shades" min="0" max="80" step="20" value="0" onchange="draw()">
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">
           <button onclick="save()">Bild speichern</button>
         </td>
       </tr>
@@ -145,8 +187,7 @@
       var cury = 1
       var curz = 1
 
-      var shading = true
-      var shade = 0.4
+      var shade = 0
 
       // draw everything
       function draw(){
@@ -159,8 +200,8 @@
           let cx = document.getElementById('cx').value
           let cy = document.getElementById('cy').value
           let cz = document.getElementById('cz').value
-          cox = document.getElementById('cox').value
-          coy = document.getElementById('coy').value
+          cox = document.getElementById('cox').value*-1
+          coy = document.getElementById('coy').value*-1
           coz = document.getElementById('coz').value
           let color = document.getElementById('color').value
           drawCubes(cx,cy,cz,true,color)
@@ -244,7 +285,9 @@
         fill ? ctx.fill() : ctx.stroke()
 
         // shading
-        if(shading){
+        shade = document.getElementById('shades').value/100
+
+        if(shade>0){
           // LEFT shading (darker)
           ctx.beginPath()
           ctx.fillStyle = `rgba(0,0,0,${shade})`
